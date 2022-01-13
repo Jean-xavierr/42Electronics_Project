@@ -25,7 +25,7 @@ void    uart_printstr(char *str)
         uart_tx(str[i++]);
 }
 
-void    TIMER0_COMPA_vect(void)
+void    TIMER1_COMPA_vect(void)
 {
     uart_printstr("Hello World!\n\r");
     DDRB = (1 << PB3);
@@ -37,12 +37,12 @@ int     main(void)
 {
     uart_init(8);
 
-    TCCR0A |= (1 << WGM01);                 // CTC mode
-    TCCR0A |= (1 << COM0A1);                
-    TCCR0B |= (1 << CS00) | (1 << CS02);    // prescaler   
+    TCCR1B |= (1 << WGM12);                 // CTC mode
+    TCCR1A |= (1 << COM1A1);                
+    TCCR1B |= (1 << CS10) | (1 << CS12);    // prescaler   
 
-    OCR0A = 254; 
-    TIMSK0 = (1 << OCIE0A);
+    OCR1A = 30000; 
+    TIMSK1 = (1 << OCIE1A);
     SREG = (1 << 7);
     for (;;) {}
     return 0;
