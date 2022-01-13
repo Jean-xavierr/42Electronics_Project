@@ -25,7 +25,7 @@ int     main(void)
     TCCR1A |= (1 << COM1A1);                // Clear OC1A on Compare Match, set OC1A at BOTTOM (ch16-2 p.140)
     TCCR1B |= (1 << CS10) | (1 << CS11);                  // prescaler
 
-    ICR1 = F_CPU / 64 / 200;               // set pwm frequency
+    ICR1 = F_CPU / 64 / 200;                // set pwm frequency
     OCR1A = ICR1 / ratio;                   // duty cycle percent
                                             // sawtooth diagram (https://www.mathworks.com/help/sltest/ref/operator_sawtooth.png)
 
