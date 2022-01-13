@@ -41,7 +41,7 @@ int     main(void)
     TCCR1A |= (1 << COM1A1);                
     TCCR1B |= (1 << CS10) | (1 << CS12);    // prescaler   
 
-    OCR1A = 30000; 
+    OCR1A = 31250; 
     TIMSK1 = (1 << OCIE1A);
     SREG = (1 << 7);
     for (;;) {}
