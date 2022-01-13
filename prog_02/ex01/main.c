@@ -10,7 +10,7 @@ void    TIMER0_COMPA_vect(void)
     if (ratio == 100 || ratio == 0)
         status *= -1;
     ratio += status;
-    OCR1A = ICR1 / ratio; 
+    OCR1A = ratio * (ICR1 / 100); 
     SREG |= (1 << 7);
 }
 
@@ -25,7 +25,7 @@ int     main(void)
     TCCR1A |= (1 << COM1A1);                // Clear OC1A on Compare Match, set OC1A at BOTTOM (ch16-2 p.140)
     TCCR1B |= (1 << CS10) | (1 << CS11);                  // prescaler
 
-    ICR1 = F_CPU / 64 / 100;               // set pwm frequency
+    ICR1 = F_CPU / 64 / 200;               // set pwm frequency
     OCR1A = ICR1 / ratio;                   // duty cycle percent
                                             // sawtooth diagram (https://www.mathworks.com/help/sltest/ref/operator_sawtooth.png)
 
@@ -35,7 +35,7 @@ int     main(void)
     TCCR0A |= (1 << COM0A1);                
     TCCR0B |= (1 << CS00) | (1 << CS02);    // prescaler   
 
-    OCR0A = 100; 
+    OCR0A = 70; 
     TIMSK0 = (1 << OCIE0A);
     SREG = (1 << 7);
     for (;;) {}
