@@ -4,22 +4,26 @@
 
 #include <avr/io.h>
 
+#define REBOUNCE_DELAY 100000
+#define PIN_STATE(REG, PIN) ((REG & (1 << PIN)) >> PIN)
+#define ON 0
+#define OFF 1
 #define TRUE 1
 #define FALSE 0
 
 uint8_t start = FALSE;
 uint8_t counter = 0;
 uint8_t end = FALSE;
-uint8_t slave = FALSE;
+uint8_t slave = TRUE;
 uint8_t terminated = FALSE;
 uint8_t pushed = FALSE;
+uint8_t player_is_ready = FALSE;
 
 void    uart_init(uint16_t USART_BAUDRATE)
 {
-    UCSR0B |= (1 << TXEN0) | (1 << RXEN0) | (1 << RXCIE0);	    // Turn on transmission, reception and  
-	// UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);                 // Use 7-bit char size (p.203)
+    UCSR0B |= (1 << TXEN0) | (1 << RXEN0) | (1 << RXCIE0);	    // Turn on transmission, reception 
 	UBRR0L = USART_BAUDRATE & 0xFF;	                            // Set Baudrate                   
-	UBRR0H = (UBRR0L >> 8);		
+	UBRR0H = (USART_BAUDRATE >> 8);		
 }
 
 char    uart_rx(void)
@@ -34,12 +38,29 @@ void    uart_tx(char c)
 	UDR0 = c;
 }
 
-__attribute__((signal))void INT1_vect(void)
+void                       variable_reset(void)
+{
+    start = FALSE;
+    counter = 0;
+    end = FALSE;
+    slave = TRUE;
+    terminated = FALSE;
+    pushed = FALSE;
+    player_is_ready = FALSE;
+    PORTB = 0;
+}
+
+void                       button(void)
 {
     if (!start) {
-        TIMSK1 = 1 << OCIE1A;
         uart_tx('S');
-        start = TRUE;
+        if (!player_is_ready) {
+            slave = FALSE;
+            player_is_ready = TRUE;
+        } else {
+            start = TRUE;
+            TIMSK1 = 1 << OCIE1A;
+        }
     } else if (!terminated) {
         if (slave == TRUE) {
             uart_tx('P');
@@ -49,29 +70,42 @@ __attribute__((signal))void INT1_vect(void)
             if (!end) {
                 uart_tx('W');
                 PORTB = 1 << PB0;
-            } else if (pushed == TRUE) {
-                uart_tx('W');
-                PORTB = 1 << PB0;
             } else {
                 uart_tx('L');
                 PORTB = 1 << PB3;
             }
             terminated = TRUE;
+            for (uint32_t timer = REBOUNCE_DELAY; timer > 0; --timer) {}
         }
+    } else {
+        uart_tx('R');
+        variable_reset();
     }
-    for (long i = 0; i < 200000; i++) {} // effects rebond
 }
 
 __attribute__((signal))void    USART_RX_vect(void)
 {
     char c = uart_rx();
-    if (!start && c == 'S') {
-        TIMSK1 = 1 << OCIE1A;
-        start = TRUE;
-        slave = TRUE;
+    if (c == 'S') {
+        if (player_is_ready == TRUE) {
+            start = TRUE;
+            TIMSK1 = 1 << OCIE1A;
+        } else {
+            player_is_ready = TRUE;
+        }
     } else if (!terminated) {
         if (slave == FALSE) {
-            pushed == TRUE;
+            TIMSK1 = 0;
+            counter = 5;
+            if (!end) {
+                uart_tx('L');
+                PORTB = 1 << PB3;
+            } else {
+                uart_tx('W');
+                PORTB = 1 << PB0;
+            }
+            terminated = TRUE;
+            for (uint32_t timer = REBOUNCE_DELAY; timer > 0; --timer) {}
         } else if (slave == TRUE) {
             TIMSK1 = 0;
             counter = 5;
@@ -81,9 +115,11 @@ __attribute__((signal))void    USART_RX_vect(void)
                 PORTB = 1 << PB0;
             }
             terminated = TRUE;
-        }
-        
-    }
+            for (uint32_t timer = REBOUNCE_DELAY; timer > 0; --timer) {}
+        }  
+    } else if (c == 'R') {
+        variable_reset();
+    } 
 }
 
 __attribute__((signal))void     TIMER1_COMPA_vect(void)
@@ -110,11 +146,8 @@ __attribute__((signal))void     TIMER1_COMPA_vect(void)
 
 int         main(void)
 {
-    uart_init(8);
+    uart_init(103);
     DDRB = 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB3;
-
-    EICRA = (1 << ISC11);   // External Interrupt Control Register
-    EIMSK = (1 << INT1);    // External Interrupt Mask Register
 
     TCCR1B |= (1 << WGM12);
     TCCR1B |= (1 << CS12) | (1 << CS10);
@@ -122,10 +155,18 @@ int         main(void)
 
     SREG = (1 << 7);        // Global interrupt
 
+    uint32_t timer = 0;
+    uint8_t current_button_state = OFF;
+    uint8_t previous_button_state = OFF;
     for (;;) {
-        // if (start) {
-        //     TIMSK1 = 1 << OCIE1A;
-        // } 
+        current_button_state = PIN_STATE(PIND, PD3);
+        if (current_button_state != previous_button_state) {
+            if (current_button_state == ON) {
+                button();
+            }
+            previous_button_state = current_button_state;
+            for (timer = REBOUNCE_DELAY; timer > 0; --timer) {}
+        }
     }
     return 0;
 }
