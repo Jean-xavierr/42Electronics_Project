@@ -7,15 +7,15 @@
 
 #define DELAY 50000
 
-#define red     0b1000000
-#define green   0b0100000
-#define blue    0b0001000
-#define yellow  0b1100000
-#define cyan    0b0101000
-#define purple  0b1001000
-#define white   0b1101000
+#define RED     0b1000000
+#define GREEN   0b0100000
+#define BLUE    0b0001000
+#define YELLOW  0b1100000
+#define CYAN    0b0101000
+#define PURPLE  0b1001000
+#define WHITE   0b1101000
 
-const int   colors[] = {red, green, blue, yellow, cyan, purple, white};
+const int   colors[] = {RED, GREEN, BLUE, YELLOW, CYAN, PURPLE, WHITE};
 uint8_t     counter = 0;
 
 int             main(void)
