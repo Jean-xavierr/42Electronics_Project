@@ -29,7 +29,7 @@ void    TIMER1_COMPA_vect(void)
 {
     uart_printstr("Hello World!\n\r");
     DDRB = (1 << PB3);
-    PORTB ^= ( 1 << PB3);
+    PORTB ^= (1 << PB3);
     SREG = (1 << 7);
 }
 
