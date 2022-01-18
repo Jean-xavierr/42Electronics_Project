@@ -11,8 +11,8 @@ uint8_t count = 0;
 
 int             main(void)
 {
-    uint16_t *eeprom_address_count = 0x00;
-    uint16_t eeprom_address_start = 0x02;
+    uint16_t *eeprom_address_count = 0;
+    uint16_t *eeprom_address_start = 1;
 
     if (!eeprom_read_word((uint16_t *) eeprom_address_start)) {
         eeprom_update_word((uint16_t *) eeprom_address_start, 1);
