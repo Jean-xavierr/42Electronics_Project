@@ -6,7 +6,6 @@
 #include <avr/eeprom.h>
 
 #define DELAY 25000
-
 uint8_t count = 0;
 
 int             main(void)
