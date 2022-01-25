@@ -1,0 +1,13 @@
+﻿Reference;Quantity;Value;Description;LCSC Part;manf#;
+C1 C2;2;22pF;22pF ±5% 50V NP0 0603 Multilayer Ceramic Capacitors;C302059;0603N220J500CT;
+C4 C3;2;100nF;100nF ±10% 16V X7R 0603 Multilayer Ceramic Capacitors ;C307478;CL10B104KO8NFNC;
+C5;1;1uF;100nF ±10% 16V X7R 0603 Multilayer Ceramic Capacitors ;C307478;CL10B104KO8NFNC;
+D4 D3 D2 D1;4;LED;Blue 465nm 0603 Light Emitting Diodes (LED) ;C192317;TJ-S1608SW6TGLC6B-A5;
+H1;1;MountingHole;MountingHole 2.1mm;;;
+J1;1;Conn_01x06;"Pin Header Male Pin 0.100""(2.54mm) 2.54mm 1x6 Pin Header";C37208;;
+J2;1;AVR-ISP-6;"Pin Header Male Pin 0.100""(2.54mm) 2.54mm 2x3 Pin Header";C492420;PZ254V-12-6P;
+R1 R2;2;10K;10K ±1% 1/10W 0603 Chip Resistor ;C365375;ETCR0603F10K0K9;
+R6 R5 R4 R3;4;330R;30K ±5% 1/10W ±100ppm/°C 0603 Chip Resistor - Surface Mount RoHS;C103525;RTT03303JTP;
+SW1 SW2;2;SW_Push;SPST-NO 50mA @ 12VDC Top Actuated Standard SMD,2.5x3x1.2mm Tactile Switches RoHS;C231329;B3U-1000P;
+U1;1;ATmega328P-AU;8-Bit FLASH AVR 20MHz 1.8V ~ 5.5V TQFP-32_7x7x08P ATMEL & AVR RoHS;C14877;ATMEGA328P-AU;
+Y1;1;16MHz;16MHz ±10ppm 8pF 50Ω SMD_3225-4P SMD Crystal Resonators RoHS;C254342;X3S016000B81H-DHU;
