@@ -318,35 +318,35 @@
   },
   "sheets": [
     [
-      "2cf8f762-861c-4f5d-af70-617a86e75b93",
+      "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55",
       ""
     ],
     [
-      "96a2c310-04bd-440d-80c4-6de972d42cdd",
-      "Sheet: led 0"
+      "75d231a5-a2ea-4680-82c2-22cb2f1431cd",
+      "Sheet: led_0"
     ],
     [
-      "b5a04624-d29f-40df-adb6-250a896b202d",
-      "Sheet: led 1"
+      "f8ca45d7-abcd-4361-b009-ce940191b9dd",
+      "Sheet: led_1"
     ],
     [
-      "d002dbf2-d474-4700-a5c2-3533617a8762",
-      "Sheet: led 2"
+      "3f50f38e-c872-4634-a362-46108fb12d25",
+      "Sheet: led_2"
     ],
     [
-      "57729c45-c0ec-43e9-8878-ed004aa1d11c",
-      "Sheet: led 3"
+      "97942e33-a412-4705-8792-9793bb21c8f4",
+      "Sheet: led_3"
     ],
     [
-      "78d77a3a-eca6-4bed-99f4-a0aef2f522c7",
+      "274a77d4-62ca-466a-b7d0-e97b7a5a35c3",
       "Sheet: usb_flasher"
     ],
     [
-      "c982f870-51aa-4269-be2f-9b84abfaf2fa",
+      "cc018de2-74b0-4fac-80a2-57fa8917a242",
       "Sheet: button_reset"
     ],
     [
-      "c93ec6c3-5bd8-442c-8ef8-5144e41f86ec",
+      "541b5b1f-72d3-447f-813c-7d6e843c313c",
       "Sheet: button_but0"
     ]
   ],
